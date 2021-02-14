@@ -2,6 +2,12 @@ FROM debian:10-slim
 
 ARG TARGETPLATFORM
 
+# add flutter and ligo to path
+ENV PATH="/flutter/bin:/ligo/build/install/ligo/bin:${PATH}"
+
+# we add the liferay hello-world-portlet workspace (normally this would come later, but it should rarely change and is pretty small)
+ADD workspace /initial_wsp
+
 # install corretto jdk 11, curl, git, unzip, sdkman, kotlin , flutter sdk 1.22
 # will also pull a fresh lr7.3ga6 workspace to load base liferay dependencies and bundle, as well as gradle wrapper binaries
 RUN apt update \
@@ -19,14 +25,7 @@ RUN apt update \
     && git clone https://github.com/n3phtys/ligo.git && cd ligo && chmod +x ./gradlew && ./gradlew installDist && cd - \
     && curl -s https://get.sdkman.io | bash \
     && /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install kotlin" \
-    && curl https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.6-stable.tar.xz -o flutter-sdk.tar.xz && ls -la && tar xf flutter-sdk.tar.xz && rm flutter-sdk.tar.xz
-
-ENV PATH="/flutter/bin:/ligo/build/install/ligo/bin:${PATH}"
-
-ADD workspace /initial_wsp
-
-RUN cd /initial_wsp && ./gradlew distBundle && cd - && rm -rf /initial_wsp
-
+    && curl https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.6-stable.tar.xz -o flutter-sdk.tar.xz && ls -la && tar xf flutter-sdk.tar.xz && rm flutter-sdk.tar.xz \
+    && cd /initial_wsp && ./gradlew distBundle && cd - && rm -rf /initial_wsp
 
 ENTRYPOINT [ "bash" ]
-
