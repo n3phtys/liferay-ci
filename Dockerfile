@@ -28,4 +28,4 @@ RUN apt update \
     && curl https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.6-stable.tar.xz -o flutter-sdk.tar.xz && ls -la && tar xf flutter-sdk.tar.xz && rm flutter-sdk.tar.xz \
     && cd /initial_wsp && ./gradlew distBundle && cd - && rm -rf /initial_wsp
 
-ENTRYPOINT [ "bash" ]
+#ENTRYPOINT ["bash", "-c"]
