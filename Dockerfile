@@ -22,7 +22,7 @@ RUN apt update \
     else curl -L https://corretto.aws/downloads/latest/amazon-corretto-11-aarch64-linux-jdk.deb -o corretto_jdk.deb; \
     fi \
     && mkdir -p /usr/share/man/man1 && dpkg --install corretto_jdk.deb && rm corretto_jdk.deb \
-    && git clone https://github.com/n3phtys/ligo.git && cd ligo && chmod +x ./gradlew && ./gradlew installDist && cd - \
+    #&& git clone https://github.com/n3phtys/ligo.git && cd ligo && chmod +x ./gradlew && ./gradlew installDist && cd - \
     && curl -s https://get.sdkman.io | bash \
     && /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install kotlin" \
     && curl https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_1.22.6-stable.tar.xz -o flutter-sdk.tar.xz && ls -la && tar xf flutter-sdk.tar.xz && rm flutter-sdk.tar.xz \
